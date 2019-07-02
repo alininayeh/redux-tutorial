@@ -49,6 +49,12 @@ I created a few examples that can help you understand better how Redux works. I 
 
 This is just a vanilla JavaScript web app that increases or decreases a counter by 1 if the correspondent buttons are clicked:
 
+![screenshot](https://alininayeh-storage.s3.eu-central-1.amazonaws.com/1562062956884Screenshot%202019-07-02%20at%2012.20.52.png)
+
+The plain redux library is used. The example is taken from here: https://redux.js.org/introduction/getting-started
+
+
+
 
 
 
