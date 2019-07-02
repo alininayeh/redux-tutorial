@@ -53,7 +53,7 @@ This is just a vanilla JavaScript web app that increases or decreases a counter 
 
 The plain redux library is used. The example is taken from here: https://redux.js.org/introduction/getting-started.
 
-You can see the code in the *example1* folder: https://github.com/alininayeh/redux-tutorial/tree/master/example1
+You can see the code in the **example1** folder: https://github.com/alininayeh/redux-tutorial/tree/master/example1
 
 
 
