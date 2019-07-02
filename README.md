@@ -1,8 +1,8 @@
-# React Redux Tutorial
+# React Redux Examples
 
-Understanding Redux can be hard at the beginning, so I decided to make a tutorial about the basics of Redux and how to use it with React.
+Understanding Redux can be hard at the beginning, so I decided to make a repo covering the basics of Redux and showing how to use it with React.
 
-Before reading this tutorial you should be familiar with React (https://reactjs.org/) and how the state of a component is managed (https://reactjs.org/docs/state-and-lifecycle.html).
+Before reading this you should be familiar with React (https://reactjs.org/) and how the state of a component is managed (https://reactjs.org/docs/state-and-lifecycle.html).
 
 ## What is Redux?
 
@@ -40,5 +40,16 @@ An action is an object that is sent to the store in order for the state to be mo
     }
 
 This is the most used format for an action, but actually an action can be of any shape (for example {actionType, actionData}, {a, b}, {foo, bar} etc.). But in the reducer you will need to use the keys that are defined in the action (instead of checking action.type you need to check action.foo or whichever key you used for the type). For consistency I prefer to use the {type, payload} format.
+
+## Examples
+
+I created a few examples that can help you understand better how Redux works. I commented all the files so it's easy to understand how they work. Just check the source code in this repo to see how Redux can be used.
+
+### Example 1: A simple page with no React
+
+This is just a vanilla JavaScript web app that increases or decreases a counter by 1 if the correspondent buttons are clicked:
+
+
+
 
 
