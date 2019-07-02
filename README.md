@@ -51,7 +51,9 @@ This is just a vanilla JavaScript web app that increases or decreases a counter 
 
 ![screenshot](https://alininayeh-storage.s3.eu-central-1.amazonaws.com/1562062956884Screenshot%202019-07-02%20at%2012.20.52.png)
 
-The plain redux library is used. The example is taken from here: https://redux.js.org/introduction/getting-started
+The plain redux library is used. The example is taken from here: https://redux.js.org/introduction/getting-started.
+
+You can see the code in the *example1* folder: https://github.com/alininayeh/redux-tutorial/tree/master/example1
 
 
 
