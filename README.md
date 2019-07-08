@@ -48,6 +48,12 @@ A reducer is a function that gets the action dispatched to the store and sends t
         }
     }
 
+## When to use Redux?
+
+If your application already has a state management system (like React for example), use that one. If you notice that it's hard to keep track of all the places where there's a state set, then you probably need some extra help and you can use Redux or any other state management concept or library.
+
+You can find a lot of useful advices here: https://redux.js.org/faq/general#when-should-i-use-redux
+
 ## Examples
 
 I created a few examples that can help you understand better how Redux works. I commented all the files so it's easy to understand how they work. Just check the source code in this repo to see how Redux can be used.
