@@ -1,6 +1,7 @@
 # Example 1: A simple page with no React
 
 This is just a vanilla JavaScript web app that increases or decreases a counter by 1 if the correspondent buttons are clicked:
+
 ![screenshot](https://alininayeh-storage.s3.eu-central-1.amazonaws.com/1562062956884Screenshot%202019-07-02%20at%2012.20.52.png)
 
 Here the **redux** library is used: https://www.npmjs.com/package/redux and the following example was used as inspiration: https://redux.js.org/introduction/getting-started.
