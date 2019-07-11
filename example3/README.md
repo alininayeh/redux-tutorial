@@ -1,6 +1,7 @@
 # Example 3: A to do list with React, Redux and Redux Thunk for async actions
 
 In this case I created a to do list and simulated an API in order to see how Redux work with async actions, which will probably be the case in most of your future projects:
+
 ![screenshot](https://alininayeh-storage.s3.eu-central-1.amazonaws.com/1562856446481Screenshot%202019-07-11%20at%2016.31.42.png)
 
 In order to run the example locally you need to run:
