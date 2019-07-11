@@ -2,20 +2,20 @@
 import {combineReducers} from 'redux';
 
 // The todo reducer
-const todo = (state = [], action) => {
+const todos = (state = [], action) => {
   switch(action.type) {
     case 'GET_TODOS':
-      return action.payload;
+      return [...action.payload.todos];
     case 'ADD_TODO':
       return [...state, action.payload];
     case 'CHECK_TODO':
-      return state.map(item => {
+      return [...state.map(item => {
         if (item.id === action.payload.id) {
           item.checked = action.payload.checked;
         }
 
         return item;
-      });
+      })];
     default:
       return state;
   }
@@ -23,5 +23,5 @@ const todo = (state = [], action) => {
 
 // The combine reducers function will simply merge more reducers to generate one bigger reducer
 // The initial state in the store will look like: {todo: []}
-const rootReducer = combineReducers({todo});
+const rootReducer = combineReducers({todos});
 export default rootReducer;

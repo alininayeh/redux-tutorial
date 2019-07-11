@@ -1,68 +1,131 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Example 3: A to do list with React, Redux and Redux Thunk for async actions
 
-## Available Scripts
+In this case I created a to do list and simulated an API in order to see how Redux work with async actions, which will probably be the case in most of your future projects:
+![screenshot](https://alininayeh-storage.s3.eu-central-1.amazonaws.com/1562856446481Screenshot%202019-07-11%20at%2016.31.42.png)
 
-In the project directory, you can run:
+In order to run the example locally you need to run:
 
-### `npm start`
+    npm install
+    npm start
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The Redux-related libraries used here are:
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+redux: https://www.npmjs.com/package/redux
+react-redux: https://www.npmjs.com/package/react-redux
+redux-thunk: https://www.npmjs.com/package/redux-thunk
 
-### `npm test`
+## The store
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Here the addition is that a middleware is applied to the store (more info here: https://redux.js.org/advanced/middleware). This middleware helps perform different things, including async API calls. Redux Thunk enables async calls:
 
-### `npm run build`
+    import {createStore, applyMiddleware} from 'redux';
+    import thunk from 'redux-thunk';
+    import rootReducer from './reducers';
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    // The store is created from the imported root reducer
+    const store = createStore(
+        rootReducer,
+        // This is the only setup you need to do in order to use redux thunk
+        applyMiddleware(thunk)
+    );
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+    export default store;
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## The reducers
 
-### `npm run eject`
+For the reducers nothing essential changes, except the fact that now the payload of the actions is used:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    import {combineReducers} from 'redux';
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    // The todo reducer
+    const todos = (state = [], action) => {
+    switch(action.type) {
+        case 'GET_TODOS':
+            return [...action.payload.todos];
+        case 'ADD_TODO':
+            // Here the payload contains the newly added todo
+            return [...state, action.payload];
+        case 'CHECK_TODO':
+            // Here the payload contains the id of the todo that needs to be modified and if it should be checked or unchecked
+            return [...state.map(item => {
+                if (item.id === action.payload.id) {
+                    item.checked = action.payload.checked;
+                }
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+                return item;
+            })];
+        default:
+            return state;
+    }
+    };
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    // The combine reducers function will simply merge more reducers to generate one bigger reducer
+    // The initial state in the store will look like: {todo: []}
+    const rootReducer = combineReducers({todos});
+    export default rootReducer;
 
-## Learn More
+## The actions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Here instead of returning the action immediately we need to return a function that gets the dispatch function as a parameter and dispatches the action to the store.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    import serverMock from "./serverMock";
 
-### Code Splitting
+    export const createGetToDosAction = () => {
+        return dispatch => {
+            serverMock.getToDos(todos => {
+                dispatch({
+                    type: 'GET_TODOS',
+                    payload: {todos}
+                });
+            });
+        };
+    };
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+    export const createAddToDoAction = (e) => {
+        // with async actions a function needs to be returned
+        // the function will dispatch the action whenever it's ready
+        // no other stuff needs to be done, the rest stays the same
+        return dispatch => {
+            // if the key pressed is not Enter dispatch a different action
+            if (e.keyCode !== 13) {
+                dispatch({type: 'KEY_UP'});
+                return;
+            }
 
-### Analyzing the Bundle Size
+            const value = e.currentTarget.value;
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+            // reset the textfield. Not the best approach, but to make it simple
+            e.currentTarget.value = '';
 
-### Making a Progressive Web App
+            const todoItem = {
+            id: new Date().getTime().toString(),
+                text: value,
+                checked: false
+            };
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+            // we'll consider this is actually going ot a server and the response will come back in 1s
+            // the new action will be added directly though, to avoid another "request to the database"
+            serverMock.addToDo(todoItem, () => {
+                dispatch({
+                    type: 'ADD_TODO',
+                    payload: todoItem
+                });
+            });
+        }
+    };
 
-### Advanced Configuration
+    export const createCheckToDoAction = (e) => {
+        return {
+            type: 'CHECK_TODO',
+            payload: {
+            id: e.currentTarget.dataset.id,
+            checked: e.currentTarget.checked
+            }
+        };
+    };
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+So for using Redux Thunk we just need to add a middleware to the store and return functions with dispatch as a parameter and dispatch the actions instead of returning them directly.
 
-### Deployment
+## The react-redux utilities
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The **Provider**, **mapStateToProps**, **mapDispatchToProps**, and **connect** utlities stay exactly the same as in the previous example (https://github.com/alininayeh/redux-tutorial/tree/master/example2). 

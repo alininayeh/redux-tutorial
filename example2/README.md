@@ -1,68 +1,115 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Example 2: A simple page made in React
 
-## Available Scripts
+This is the same app as in example 1, but this time built in react and using the **react-redux** library.
 
-In the project directory, you can run:
+![screenshot](https://alininayeh-storage.s3.eu-central-1.amazonaws.com/1562062956884Screenshot%202019-07-02%20at%2012.20.52.png)
 
-### `npm start`
+In order to run the example locally you need to run:
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    npm install
+    npm start
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Here we have the same main parts, but they are linked with the React component using the react-redux library: https://www.npmjs.com/package/react-redux. Also the plain Redux library is used, as in the previous example: https://www.npmjs.com/package/redux.
 
-### `npm test`
+## The store
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    import {createStore} from 'redux';
+    import rootReducer from './reducers';
 
-### `npm run build`
+    // The store is created from the imported root reducer
+    const store = createStore(rootReducer);
+    export default store;
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The same createStore method is used, and the store will keep the state of the app, like before.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## The reducers
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    import {combineReducers} from 'redux';
 
-### `npm run eject`
+    // The counter reducer
+    const counter = (state = 0, action) => {
+    switch(action.type) {
+        case 'INCREMENT':
+            return state + 1;
+        case 'DECREMENT':
+            return state - 1;
+        default:
+            return state;
+    }
+    }
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    // The combine reducers function will simply merge more reducers to generate one bigger reducer
+    // The initial state in the store will look like: {counter: 0}
+    const rootReducer = combineReducers({counter});
+    export default rootReducer;
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The reducer is the same as before, but now we have a main reducer that merges all reducers and exports a main reducer. In our case we still have only one reducer. The **combineReducers** method is used to generate a final reducer.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## The actions
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    // These are the action creators
+    // They are functions that generate action objects which will be used by the reducers
+    export const createIncrementCounterAction = () => {
+        return {
+            type: 'INCREMENT'
+        };
+    };
 
-## Learn More
+    export const createDecrementCounterAction = () => {
+        return {
+            type: 'DECREMENT'
+        };
+    };
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## The react-redux utilities
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Provider
 
-### Code Splitting
+    // The Provider component links the app to the store
+    <Provider store={store}>
+        <App />
+    </Provider>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+The **Provider** is a placeholder for our React app. It links the app to the store.
 
-### Analyzing the Bundle Size
+## mapStateToProps
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+    // This function extracts data from the store's state and returns an object with the data needed
+    // This data will be sent to the component as part of the props
+    const mapStateToProps = state => ({
+        counter: state.counter
+    });
 
-### Making a Progressive Web App
+The **mapStateToProps** function extracts data from the store's state and returns it in order to be passed to the component as props.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## mapDispatchToProps
 
-### Advanced Configuration
+    // This function dispatches actions to the store, which will use the reducers to process them, then update the state
+    // This should be the only way to update the store's state
+    const mapDispatchToProps = dispatch => ({
+        incrementCounter: () => dispatch(createIncrementCounterAction()),
+        decrementCounter: () => dispatch(createDecrementCounterAction())
+    });
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+The **mapDispatchToProps** function sends actions to the store, which will use the reducers to update the state depening on which action was sent. The functions that generate the actions are passed to the component as props.
 
-### Deployment
+The props coming from the functions above are passed to the component like any other props:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+    // The props are coming from the mapStateToProps and mapDispatchToProps functions
+    // counter will have an initial value of 0 (coming from the reducer)
+    // incrementCounter and decrementCounter are functions that will dispatch the actions to the store
+    const App = ({counter, incrementCounter, decrementCounter}) => {
+        return (
+            <div className="app">
+                <button id="decrementCounter" onClick={decrementCounter}>-</button>
+                <span id="counterValue">{counter}</span>
+                <button id="incrementCounter" onClick={incrementCounter}>+</button>
+            </div>
+        );
+    };
 
-### `npm run build` fails to minify
+## connect
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The **connect** function is used to generate the props from the **mapStateToProps** and **mapDispatchToProps** functions. The component is exported as a higher-order (definition here: https://medium.com/javascript-scene/higher-order-functions-composing-software-5365cf2cbe99) function:
+
+    export default connect(mapStateToProps, mapDispatchToProps)(App);

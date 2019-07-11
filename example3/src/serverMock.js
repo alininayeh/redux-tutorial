@@ -11,6 +11,7 @@ const serverMock = {
     setTimeout(callback, 1000);
   },
   getToDos(callback) {
+    this._todos = JSON.parse(sessionStorage.getItem('todos')) || [];
     setTimeout(() => {
       callback(this._todos);
     }, 1000);

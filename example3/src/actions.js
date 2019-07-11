@@ -1,5 +1,16 @@
 import serverMock from "./serverMock";
 
+export const createGetToDosAction = () => {
+  return dispatch => {
+    serverMock.getToDos(todos => {
+      dispatch({
+        type: 'GET_TODOS',
+        payload: {todos}
+      });
+    });
+  };
+};
+
 export const createAddToDoAction = (e) => {
   // with async actions a function needs to be returned
   // the function will dispatch the action whenever it's ready
