@@ -11,8 +11,8 @@ In order to run the example locally you need to run:
 
 The Redux-related libraries used here are:
 
-redux: https://www.npmjs.com/package/redux
-react-redux: https://www.npmjs.com/package/react-redux
+redux: https://www.npmjs.com/package/redux\
+react-redux: https://www.npmjs.com/package/react-redux\
 redux-thunk: https://www.npmjs.com/package/redux-thunk
 
 ## The store
