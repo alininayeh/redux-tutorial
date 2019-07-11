@@ -11,8 +11,10 @@ In order to run the example locally you need to run:
 
 The Redux-related libraries used here are:
 
-redux: https://www.npmjs.com/package/redux 
-react-redux: https://www.npmjs.com/package/react-redux 
+redux: https://www.npmjs.com/package/redux
+
+react-redux: https://www.npmjs.com/package/react-redux
+
 redux-thunk: https://www.npmjs.com/package/redux-thunk
 
 ## The store
@@ -40,24 +42,24 @@ For the reducers nothing essential changes, except the fact that now the payload
 
     // The todo reducer
     const todos = (state = [], action) => {
-    switch(action.type) {
-        case 'GET_TODOS':
-            return [...action.payload.todos];
-        case 'ADD_TODO':
-            // Here the payload contains the newly added todo
-            return [...state, action.payload];
-        case 'CHECK_TODO':
-            // Here the payload contains the id of the todo that needs to be modified and if it should be checked or unchecked
-            return [...state.map(item => {
-                if (item.id === action.payload.id) {
-                    item.checked = action.payload.checked;
-                }
+        switch(action.type) {
+            case 'GET_TODOS':
+                return [...action.payload.todos];
+            case 'ADD_TODO':
+                // Here the payload contains the newly added todo
+                return [...state, action.payload];
+            case 'CHECK_TODO':
+                // Here the payload contains the id of the todo that needs to be modified and if it should be checked or unchecked
+                return [...state.map(item => {
+                    if (item.id === action.payload.id) {
+                        item.checked = action.payload.checked;
+                    }
 
-                return item;
-            })];
-        default:
-            return state;
-    }
+                    return item;
+                })];
+            default:
+                return state;
+        }
     };
 
     // The combine reducers function will simply merge more reducers to generate one bigger reducer
