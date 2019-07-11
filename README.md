@@ -198,7 +198,7 @@ The props coming from the functions above are passed to the component like any o
     // incrementCounter and decrementCounter are functions that will dispatch the actions to the store
     const App = ({counter, incrementCounter, decrementCounter}) => {
         return (
-            <div class="app">
+            <div className="app">
                 <button id="decrementCounter" onClick={decrementCounter}>-</button>
                 <span id="counterValue">{counter}</span>
                 <button id="incrementCounter" onClick={incrementCounter}>+</button>
