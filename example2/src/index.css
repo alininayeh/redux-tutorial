@@ -1,0 +1,19 @@
+.app {
+  align-items: center;
+  display: flex;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  justify-content: space-around;
+  margin: 0 auto;
+  width: 150px;
+}
+
+.app button {
+  background: cornflowerblue;
+  border: 0;
+  color: white;
+  font-size: 20px;
+  height: 40px;
+  line-height: 40px;
+  width: 40px;
+}
