@@ -63,7 +63,7 @@ The reducer is the same as before, but now we have a main reducer that merges al
 
 ## The react-redux utilities
 
-## Provider
+### Provider
 
     // The Provider component links the app to the store
     <Provider store={store}>
@@ -72,7 +72,7 @@ The reducer is the same as before, but now we have a main reducer that merges al
 
 The **Provider** is a placeholder for our React app. It links the app to the store.
 
-## mapStateToProps
+### mapStateToProps
 
     // This function extracts data from the store's state and returns an object with the data needed
     // This data will be sent to the component as part of the props
@@ -82,7 +82,7 @@ The **Provider** is a placeholder for our React app. It links the app to the sto
 
 The **mapStateToProps** function extracts data from the store's state and returns it in order to be passed to the component as props.
 
-## mapDispatchToProps
+### mapDispatchToProps
 
     // This function dispatches actions to the store, which will use the reducers to process them, then update the state
     // This should be the only way to update the store's state
@@ -108,7 +108,7 @@ The props coming from the functions above are passed to the component like any o
         );
     };
 
-## connect
+### connect
 
 The **connect** function is used to generate the props from the **mapStateToProps** and **mapDispatchToProps** functions. The component is exported as a higher-order (definition here: https://medium.com/javascript-scene/higher-order-functions-composing-software-5365cf2cbe99) function:
 
