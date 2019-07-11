@@ -107,7 +107,7 @@ This is the same app as in example 1, but this time built in react and using the
 
 Here we have the same main parts, but they are linked with the React component using the react-redux library. 
 
-### The store
+#### The store
 
     // The store
     import {createStore} from 'redux';
@@ -119,7 +119,7 @@ Here we have the same main parts, but they are linked with the React component u
 
 The same createStore method is used, and the store will keep the state of the app, like before.
 
-### The reducers
+#### The reducers
 
     // The reducers
     import {combineReducers} from 'redux';
@@ -143,7 +143,7 @@ The same createStore method is used, and the store will keep the state of the ap
 
 The reducer is the same as before, but now we have a main reducer that merges all reducers and exports a main reducer. In our case we still have only one reducer. The **combineReducers** method is used to generate a final reducer.
 
-### The actions
+#### The actions
 
     // These are the action creators
     // They are functions that generate action objects which will be used by the reducers
@@ -159,7 +159,7 @@ The reducer is the same as before, but now we have a main reducer that merges al
         };
     };
 
-### The react-redux utilities
+#### The react-redux utilities
 
 #### Provider
 
@@ -214,7 +214,9 @@ The **connect** function is used to generate the props from the **mapStateToProp
 
 You can see the code in the **example2** folder: https://github.com/alininayeh/redux-tutorial/tree/master/example2
 
+### Example 3: A to do list with React, Redux and Redux Thunk for async actions
 
+![screenshot](https://alininayeh-storage.s3.eu-central-1.amazonaws.com/1562856446481Screenshot%202019-07-11%20at%2016.31.42.png)
 
 
 
